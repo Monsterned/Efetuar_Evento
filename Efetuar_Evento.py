@@ -29,7 +29,6 @@ def click_image(image_path, confidence=0.9):
             print("Imagem não encontrada na tela. Aguardando...")
         pyautogui.sleep(1)
 
-
 def alerta_revisonais(image_path,image_path2, confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
     caminho_imagem = caminho + r'\IMAGENS'
@@ -79,10 +78,8 @@ def alerta_revisonais(image_path,image_path2, confidence=0.9):
             return False
     except Exception as e:
         print(f"Erro ao tentar encontrar a imagem: {e}")
-
     return False
     pyautogui.sleep(1)
-
 
 def motorista_nao_localizado(image_path, confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
@@ -112,7 +109,6 @@ def motorista_nao_localizado(image_path, confidence=0.9):
         return False
     pyautogui.sleep(1)
 
-
 def veiculo_nao_localizado(image_path, confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
     caminho_imagem = caminho + r'\IMAGENS'
@@ -140,7 +136,6 @@ def veiculo_nao_localizado(image_path, confidence=0.9):
         print(f"Erro ao tentar encontrar a imagem: {e}")
         return False
     pyautogui.sleep(1)
-
 
 def erro_rateio(image_path, confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
@@ -179,7 +174,6 @@ def aviso_atencao(image_path, image_path2,image_path3, confidence=0.9):
     image_path3 = os.path.join(current_dir, caminho_imagem, image_path3)
     attempts = 3
     aviso_ativo = False  # Variável para indicar se o aviso está ativo
-
     # Tentar encontrar a primeira imagem até 3 vezes
     for attempt in range(attempts):
         try:
@@ -191,13 +185,10 @@ def aviso_atencao(image_path, image_path2,image_path3, confidence=0.9):
                 print(f"Imagem 1 não encontrada na tentativa {attempt + 1}. Aguardando...")
         except Exception as e:
             print(f"Erro ao tentar encontrar a imagem 1 na tentativa {attempt + 1}: {e}")
-
         pyautogui.sleep(1)
-
     if not aviso_ativo:
         print("Imagem 1 não encontrada após 3 tentativas. Prosseguindo...")
-        return aviso_ativo  # Retorna o estado do aviso
-    
+        return aviso_ativo  # Retorna o estado do aviso   
     caminho_do_arquivo = 'EVENTO.xlsx'
     nome_da_aba = 'Planilha1'
     wb = load_workbook(caminho_do_arquivo)
@@ -209,7 +200,6 @@ def aviso_atencao(image_path, image_path2,image_path3, confidence=0.9):
         ws[coluna_ost + str(linha_especifica)] = 'CNH VENCIDA OU COM CARENCIA'
     wb.save(caminho_do_arquivo)
     wb.close()
-
     while True:
         try:
             position2 = pyautogui.locateOnScreen(image_path2, confidence=confidence)
@@ -223,9 +213,7 @@ def aviso_atencao(image_path, image_path2,image_path3, confidence=0.9):
                 print("Imagem 2 não encontrada na tela. Aguardando...")
         except Exception as e:
             print(f"Erro ao tentar encontrar a imagem 2: {e}")
-
         pyautogui.sleep(1)
-
     pyautogui.sleep(1)
     while True:
         try:
@@ -240,9 +228,7 @@ def aviso_atencao(image_path, image_path2,image_path3, confidence=0.9):
                 print("Imagem 2 não encontrada na tela. Aguardando...")
         except Exception as e:
             print(f"Erro ao tentar encontrar a imagem 2: {e}")
-
         pyautogui.sleep(1)
-    
     pyautogui.sleep(1)
     while True:
         try:
@@ -257,19 +243,14 @@ def aviso_atencao(image_path, image_path2,image_path3, confidence=0.9):
                 print("Imagem 2 não encontrada na tela. Aguardando...")
         except Exception as e:
             print(f"Erro ao tentar encontrar a imagem 2: {e}")
-
         pyautogui.sleep(1)
-
     return aviso_ativo  # Retorna o estado do aviso
-
 
 def aviso_antt(image_path,confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
     caminho_imagem = 'IMAGENS'
     image_path = os.path.join(current_dir, caminho_imagem, image_path)
-
     aviso_antt = False  # Variável para indicar se o aviso está ativo
-
     try:
         position = pyautogui.locateOnScreen(image_path, confidence=confidence)
         if position:
@@ -278,13 +259,10 @@ def aviso_antt(image_path,confidence=0.9):
             print(f"Imagem não encontrada na tentativa. Aguardando...")
     except Exception as e:
         print(f"Erro ao tentar encontrar a imagem: {e}")
-
     pyautogui.sleep(1)
-
     if not aviso_antt:
         print("Imagem  não encontrada. Prosseguindo...")
         return aviso_antt  # Retorna o estado do aviso
-    
     caminho_do_arquivo = 'EVENTO.xlsx'
     nome_da_aba = 'Planilha1'
     wb = load_workbook(caminho_do_arquivo)
@@ -296,7 +274,6 @@ def aviso_antt(image_path,confidence=0.9):
         ws[coluna_ost + str(linha_especifica)] = 'ANTT DO VEICULO ESTA VENCENDO'
     wb.save(caminho_do_arquivo)
     wb.close()
-
     click_image('ok_marcado.png')
     pyautogui.sleep(2)
     return aviso_antt  # Retorna o estado do aviso
@@ -306,10 +283,8 @@ def erro_documento_naoencontrato(image_path, image_path2, confidence=0.9):
     caminho_imagem = 'IMAGENS'
     image_path = os.path.join(current_dir, caminho_imagem, image_path)
     image_path2 = os.path.join(current_dir, caminho_imagem, image_path2)
-
     attempts = 3
     documento_nao_localizado = False  # Variável para indicar se o aviso está ativo
-
     # Tentar encontrar a primeira imagem até 3 vezes
     for attempt in range(attempts):
         try:
@@ -321,13 +296,10 @@ def erro_documento_naoencontrato(image_path, image_path2, confidence=0.9):
                 print(f"Imagem 1 não encontrada na tentativa {attempt + 1}. Aguardando...")
         except Exception as e:
             print(f"Erro ao tentar encontrar a imagem 1 na tentativa {attempt + 1}: {e}")
-
         pyautogui.sleep(1)
-
     if not documento_nao_localizado:
         print("Imagem 1 não encontrada após 3 tentativas. Prosseguindo...")
         return documento_nao_localizado  # Retorna o estado do aviso
-
     caminho_do_arquivo = 'EVENTO.xlsx'
     nome_da_aba = 'Planilha1'
     wb = load_workbook(caminho_do_arquivo)
@@ -354,12 +326,9 @@ def erro_documento_naoencontrato(image_path, image_path2, confidence=0.9):
         except Exception as e:
             print(f"Erro ao tentar encontrar a imagem 2: {e}")
         pyautogui.sleep(1)
-
     pyautogui.sleep(0.5)
     click_image('cancelar_inclusao.png')
     return documento_nao_localizado  # Retorna o estado do aviso
-
-
 
 def click_info_manifesto(image_path, confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
@@ -392,7 +361,6 @@ Planilha_eventos['DATA'] = Planilha_eventos['DATA'].dt.strftime('%d/%m/%Y')
 # print(Planilha_eventos['DATA'])
 
 linha_especifica = 1
-
 pyautogui.sleep(2)
 
 for i, linha in enumerate(Planilha_eventos.index):
@@ -413,6 +381,8 @@ for i, linha in enumerate(Planilha_eventos.index):
     descricao = unidecode(descricao)
     descricao = descricao.upper()
     placa = Planilha_eventos.loc[linha, "PLACA"]
+    placa = str(placa)
+    placa = placa.replace('*', '')
     linha_especifica += 1
 
     click_image('incluir.png')
@@ -452,7 +422,6 @@ for i, linha in enumerate(Planilha_eventos.index):
         pyautogui.press('tab')
     pyautogui.sleep(1)
     #se placa ou motorista der aviso colocar um ok 
-
     aviso_ativo = aviso_atencao('aviso_cnh_vencida.png','ok_marcado.png','ok_efetuado.png')
     alerta_revisonal = alerta_revisonais('ALERTA_REVISONAIS.png','aviso_dual_avencer.png')
     antt_vencida = aviso_antt('erro_antt.png')
