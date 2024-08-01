@@ -11,6 +11,9 @@ from datetime import datetime, timedelta
 from unidecode import unidecode
 
 caminho = os.getcwd() 
+caminho_do_arquivo = 'EVENTO.xlsx'
+nome_da_aba = 'Plan4'
+coluna_ost = 'K'
 
 def click_image(image_path, confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
@@ -29,6 +32,59 @@ def click_image(image_path, confidence=0.9):
             print("Imagem não encontrada na tela. Aguardando...")
         pyautogui.sleep(1)
 
+def novo_evento(image_path,image_path2, confidence=0.9):
+    current_dir = os.path.dirname(__file__)  # Diretório atual do script
+    caminho_imagem = caminho + r'\IMAGENS'
+    image_path = os.path.join(current_dir, caminho_imagem, image_path) 
+    image_path2 = os.path.join(current_dir, caminho_imagem, image_path2)
+    while True:
+        try:
+            position = pyautogui.locateOnScreen(image_path, confidence=confidence)
+            if position:
+                print("Confirmação para inclusao de evento.")
+                break
+        except Exception as e:
+            print("Não autorizado inclusão de evento.Aguardando...")
+            try:
+                position2 = pyautogui.locateOnScreen(image_path2, confidence=confidence)
+                if position2:
+                    print("OK foi encontrada na tela.")
+                    center_x = position.left + position.width // 2
+                    center_y = position.top + position.height // 2
+                    pyautogui.click(center_x, center_y)
+                    click_image('incluir.png')
+            except Exception as e:
+                print("OK não encontrada na tela.")
+        pyautogui.sleep(1)
+
+def confirmacao_documento_incluido(image_path, confidence=0.9):
+    current_dir = os.path.dirname(__file__)  # Diretório atual do script
+    caminho_imagem = caminho + r'\IMAGENS'
+    image_path = os.path.join(current_dir, caminho_imagem, image_path) 
+    while True:
+        try:
+            position = pyautogui.locateOnScreen(image_path, confidence=confidence)
+            if position:
+                print("Documento foi encontrada na tela.")
+                break
+        except Exception as e:
+            print("Documento não encontrada na tela. Aguardando...")
+        pyautogui.sleep(1)
+
+def numero_evento(image_path, confidence=0.9):
+    current_dir = os.path.dirname(__file__)  # Diretório atual do script
+    caminho_imagem = caminho + r'\IMAGENS'
+    image_path = os.path.join(current_dir, caminho_imagem, image_path) 
+    while True:
+        try:
+            position = pyautogui.locateOnScreen(image_path, confidence=confidence)
+            if position:
+                print("Numero do evento nao foi encontrada na tela.Aguardando ...")
+        except Exception as e:
+            print("Numero do evento encontrado na tela.")
+            break
+        pyautogui.sleep(1)
+
 def alerta_revisonais(image_path,image_path2, confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
     caminho_imagem = caminho + r'\IMAGENS'
@@ -39,11 +95,8 @@ def alerta_revisonais(image_path,image_path2, confidence=0.9):
         if position:
             print("Imagem foi encontrada na tela.")
             click_image('ok_marcado.png')
-            caminho_do_arquivo = 'EVENTO.xlsx'
-            nome_da_aba = 'Planilha1'
             wb = load_workbook(caminho_do_arquivo)
-            ws = wb[nome_da_aba]
-            coluna_ost = 'J'  
+            ws = wb[nome_da_aba] 
             if linha > ws.max_row:
                 ws[coluna_ost + str(linha_especifica)] = 'VEICULO COM ALERTAS DE REVISAO'
             else:
@@ -61,11 +114,8 @@ def alerta_revisonais(image_path,image_path2, confidence=0.9):
         if position2:
             print("Imagem foi encontrada na tela.")
             click_image('ok_marcado.png')
-            caminho_do_arquivo = 'EVENTO.xlsx'
-            nome_da_aba = 'Planilha1'
             wb = load_workbook(caminho_do_arquivo)
-            ws = wb[nome_da_aba]
-            coluna_ost = 'J'  
+            ws = wb[nome_da_aba] 
             if linha > ws.max_row:
                 ws[coluna_ost + str(linha_especifica)] = 'VEICULO COM ALERTAS DE REVISAO'
             else:
@@ -89,11 +139,8 @@ def motorista_nao_localizado(image_path, confidence=0.9):
         position = pyautogui.locateOnScreen(image_path, confidence=confidence)
         if position:
             print("Imagem foi encontrada na tela.")
-            caminho_do_arquivo = 'EVENTO.xlsx'
-            nome_da_aba = 'Planilha1'
             wb = load_workbook(caminho_do_arquivo)
             ws = wb[nome_da_aba]
-            coluna_ost = 'J'  
             if linha > ws.max_row:
                 ws[coluna_ost + str(linha_especifica)] = 'MOTORISTA NAO ENCONTRADO'
             else:
@@ -117,11 +164,8 @@ def veiculo_nao_localizado(image_path, confidence=0.9):
         position = pyautogui.locateOnScreen(image_path, confidence=confidence)
         if position:
             print("Imagem foi encontrada na tela.")
-            caminho_do_arquivo = 'EVENTO.xlsx'
-            nome_da_aba = 'Planilha1'
             wb = load_workbook(caminho_do_arquivo)
             ws = wb[nome_da_aba]
-            coluna_ost = 'J'  
             if linha > ws.max_row:
                 ws[coluna_ost + str(linha_especifica)] = 'VEICULO NAO ENCONTRADO OU INATIVO'
             else:
@@ -146,11 +190,8 @@ def erro_rateio(image_path, confidence=0.9):
         if position:
             print("Imagem foi encontrada na tela.")
             click_image('ok_efetuado.png')
-            caminho_do_arquivo = 'EVENTO.xlsx'
-            nome_da_aba = 'Planilha1'
             wb = load_workbook(caminho_do_arquivo)
-            ws = wb[nome_da_aba]
-            coluna_ost = 'J'  
+            ws = wb[nome_da_aba] 
             if linha > ws.max_row:
                 ws[coluna_ost + str(linha_especifica)] = 'ERRO DE RATEIO DO EVENTO'
             else:
@@ -166,85 +207,71 @@ def erro_rateio(image_path, confidence=0.9):
         return False
     pyautogui.sleep(1)
 
-def aviso_atencao(image_path, image_path2,image_path3, confidence=0.9):
+def aviso_atencao(image_path, image_path2, image_path3, image_path4, confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
     caminho_imagem = 'IMAGENS'
     image_path = os.path.join(current_dir, caminho_imagem, image_path)
     image_path2 = os.path.join(current_dir, caminho_imagem, image_path2)
     image_path3 = os.path.join(current_dir, caminho_imagem, image_path3)
+    image_path4 = os.path.join(current_dir, caminho_imagem, image_path4)
+    
     attempts = 3
     aviso_ativo = False  # Variável para indicar se o aviso está ativo
+    aviso_veiculo = False  # Variável para indicar se o aviso do veículo está ativo
+
     # Tentar encontrar a primeira imagem até 3 vezes
     for attempt in range(attempts):
         try:
             position = pyautogui.locateOnScreen(image_path, confidence=confidence)
             if position:
-                aviso_ativo = True  # Aviso encontrado, definir como ativo
+                aviso_ativo = True
                 break
             else:
                 print(f"Imagem 1 não encontrada na tentativa {attempt + 1}. Aguardando...")
         except Exception as e:
             print(f"Erro ao tentar encontrar a imagem 1 na tentativa {attempt + 1}: {e}")
+        
+        try:
+            position4 = pyautogui.locateOnScreen(image_path4, confidence=confidence)
+            if position4:
+                click_image('ok_marcado.png')
+                aviso_veiculo = True
+                break
+        except Exception as e:
+            print(f"Erro ao tentar encontrar a imagem 4 na tentativa {attempt + 1}: {e}")
+        
         pyautogui.sleep(1)
+        
     if not aviso_ativo:
         print("Imagem 1 não encontrada após 3 tentativas. Prosseguindo...")
-        return aviso_ativo  # Retorna o estado do aviso   
-    caminho_do_arquivo = 'EVENTO.xlsx'
-    nome_da_aba = 'Planilha1'
-    wb = load_workbook(caminho_do_arquivo)
-    ws = wb[nome_da_aba]
-    coluna_ost = 'J'  
-    if linha > ws.max_row:
-        ws[coluna_ost + str(linha_especifica)] = 'CNH VENCIDA OU COM CARENCIA'
     else:
+        wb = load_workbook(caminho_do_arquivo)
+        ws = wb[nome_da_aba]
         ws[coluna_ost + str(linha_especifica)] = 'CNH VENCIDA OU COM CARENCIA'
-    wb.save(caminho_do_arquivo)
-    wb.close()
-    while True:
-        try:
-            position2 = pyautogui.locateOnScreen(image_path2, confidence=confidence)
-            if position2:
-                center_x = position2.left + position2.width // 2
-                center_y = position2.top + position2.height // 2
-                pyautogui.click(center_x, center_y)
-                print("Imagem 2 foi encontrada na tela.")
-                break
-            else:
-                print("Imagem 2 não encontrada na tela. Aguardando...")
-        except Exception as e:
-            print(f"Erro ao tentar encontrar a imagem 2: {e}")
-        pyautogui.sleep(1)
-    pyautogui.sleep(1)
-    while True:
-        try:
-            position3 = pyautogui.locateOnScreen(image_path3, confidence=confidence)
-            if position2:
-                center_x = position3.left + position3.width // 2
-                center_y = position3.top + position3.height // 2
-                pyautogui.click(center_x, center_y)
-                print("Imagem 2 foi encontrada na tela.")
-                break
-            else:
-                print("Imagem 2 não encontrada na tela. Aguardando...")
-        except Exception as e:
-            print(f"Erro ao tentar encontrar a imagem 2: {e}")
-        pyautogui.sleep(1)
-    pyautogui.sleep(1)
-    while True:
-        try:
-            position3 = pyautogui.locateOnScreen(image_path3, confidence=confidence)
-            if position2:
-                center_x = position3.left + position3.width // 2
-                center_y = position3.top + position3.height // 2
-                pyautogui.click(center_x, center_y)
-                print("Imagem 2 foi encontrada na tela.")
-                break
-            else:
-                print("Imagem 2 não encontrada na tela. Aguardando...")
-        except Exception as e:
-            print(f"Erro ao tentar encontrar a imagem 2: {e}")
-        pyautogui.sleep(1)
-    return aviso_ativo  # Retorna o estado do aviso
+        wb.save(caminho_do_arquivo)
+        wb.close()
+        click_image('ok_marcado.png')
+        pyautogui.sleep(0.5)
+        click_image('ok_efetuado.png')
+        pyautogui.sleep(0.5)
+        click_image('ok_efetuado.png')
+        pyautogui.sleep(0.5)
+        # # Verificação das imagens 2 e 3
+        # for image, description in [(image_path2, "Imagem 2"), (image_path3, "Imagem 3")]:
+        #     while True:
+        #         try:
+        #             position = pyautogui.locateOnScreen(image, confidence=confidence)
+        #             if position:
+        #                 pyautogui.click(position)
+        #                 print(f"{description} foi encontrada na tela.")
+        #                 break
+        #             else:
+        #                 print(f"{description} não encontrada na tela. Aguardando...")
+        #         except Exception as e:
+        #             print(f"Erro ao tentar encontrar {description}: {e}")
+        #         pyautogui.sleep(1)
+    
+    return aviso_ativo, aviso_veiculo  # Retorna o estado do aviso
 
 def aviso_antt(image_path,confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
@@ -263,11 +290,8 @@ def aviso_antt(image_path,confidence=0.9):
     if not aviso_antt:
         print("Imagem  não encontrada. Prosseguindo...")
         return aviso_antt  # Retorna o estado do aviso
-    caminho_do_arquivo = 'EVENTO.xlsx'
-    nome_da_aba = 'Planilha1'
     wb = load_workbook(caminho_do_arquivo)
-    ws = wb[nome_da_aba]
-    coluna_ost = 'J'  
+    ws = wb[nome_da_aba]  
     if linha > ws.max_row:
         ws[coluna_ost + str(linha_especifica)] = 'ANTT DO VEICULO ESTA VENCENDO'
     else:
@@ -300,11 +324,8 @@ def erro_documento_naoencontrato(image_path, image_path2, confidence=0.9):
     if not documento_nao_localizado:
         print("Imagem 1 não encontrada após 3 tentativas. Prosseguindo...")
         return documento_nao_localizado  # Retorna o estado do aviso
-    caminho_do_arquivo = 'EVENTO.xlsx'
-    nome_da_aba = 'Planilha1'
     wb = load_workbook(caminho_do_arquivo)
-    ws = wb[nome_da_aba]
-    coluna_ost = 'J'  
+    ws = wb[nome_da_aba]  
     if linha > ws.max_row:
         ws[coluna_ost + str(linha_especifica)] = 'DOCUMENTO NAO ENCONTRADO'
     else:
@@ -372,7 +393,7 @@ for i, linha in enumerate(Planilha_eventos.index):
     valor = Planilha_eventos.loc[linha, "VALOR"]
     valor = str(valor)
     valor = valor.replace('.', ',')
-    descricao = Planilha_eventos.loc[linha, "DESCRICAO"]
+    descricao = Planilha_eventos.loc[linha, "OBSERVAÇÃO"]
     descricao = str(descricao)
     if 'Ç' in descricao:
         descricao = descricao.replace("Ç", "C")
@@ -384,9 +405,9 @@ for i, linha in enumerate(Planilha_eventos.index):
     placa = str(placa)
     placa = placa.replace('*', '')
     linha_especifica += 1
-
     click_image('incluir.png')
     pyautogui.sleep(2)
+    novo_evento('campo_evento_automatico.png','ok_efetuado.png')
     click_info_manifesto('filial.png')
     for i in range(5):
         pyautogui.press('backspace')
@@ -399,11 +420,14 @@ for i, linha in enumerate(Planilha_eventos.index):
         pyautogui.press('del')
     pyautogui.write(str(data))
     pyautogui.write(str(um_minuto_atras_formatado))
-    pyautogui.press('tab')
+    for i in range(2):
+        pyautogui.press('tab')
+    pyautogui.sleep(0.2)
     click_info_manifesto('codigo_evento.png')
     pyautogui.write(str(codigo_evento))
     pyautogui.press('tab')
-    click_info_manifesto('campo_veiculo.png')   
+    click_info_manifesto('campo_veiculo.png') 
+    pyautogui.sleep(0.5)  
     pyautogui.press('F2')
     click_info_manifesto('campo_placa.png')
     pyautogui.write(str(placa))
@@ -422,7 +446,7 @@ for i, linha in enumerate(Planilha_eventos.index):
         pyautogui.press('tab')
     pyautogui.sleep(1)
     #se placa ou motorista der aviso colocar um ok 
-    aviso_ativo = aviso_atencao('aviso_cnh_vencida.png','ok_marcado.png','ok_efetuado.png')
+    aviso_ativo, aviso_veiculo = aviso_atencao('aviso_cnh_vencida.png', 'ok_marcado.png', 'ok_efetuado.png', 'curso_vencido.png')
     alerta_revisonal = alerta_revisonais('ALERTA_REVISONAIS.png','aviso_dual_avencer.png')
     antt_vencida = aviso_antt('erro_antt.png')
     pyautogui.sleep(1)
@@ -439,6 +463,7 @@ for i, linha in enumerate(Planilha_eventos.index):
     pyautogui.write(descricao)
     pyautogui.sleep(2)
     click_image('salvar.png')
+    numero_evento('campo_evento_automatico.png')
     click_info_manifesto('campo_evento.png')
     pyautogui.click(button='right')
     for i in range(3):
@@ -455,15 +480,13 @@ for i, linha in enumerate(Planilha_eventos.index):
     except Exception as e:
         print("Ocorreu um erro:", str(e))
 
-    caminho_do_arquivo = 'EVENTO.xlsx'
-    nome_da_aba = 'Planilha1'
     wb = load_workbook(caminho_do_arquivo)
     ws = wb[nome_da_aba]
-    coluna_ost = 'A'  
+    coluna_evento = 'B'  
     if linha > ws.max_row:
-        ws[coluna_ost + str(linha_especifica)] = ost
+        ws[coluna_evento + str(linha_especifica)] = ost
     else:
-        ws[coluna_ost + str(linha_especifica)] = ost
+        ws[coluna_evento + str(linha_especifica)] = ost
     wb.save(caminho_do_arquivo)
     wb.close()
 
@@ -472,6 +495,7 @@ for i, linha in enumerate(Planilha_eventos.index):
     click_image('selecionar_tipo_documento.png')
     click_image('selecionar_manifesto.png')
     click_image('inserir_filial_manifesto.png')
+    pyautogui.sleep(0.5)
     pyautogui.write(str(filial))
     pyautogui.sleep(0.5)
     pyautogui.press('tab')
@@ -483,6 +507,7 @@ for i, linha in enumerate(Planilha_eventos.index):
     pyautogui.press('tab')
     click_image('setinha_verde.png')
     pyautogui.sleep(2)
+    confirmacao_documento_incluido('confirmacao_de_documento_incluido.png')
     #Verificar se o documento foi encontrado
     documento_nao_localizado = erro_documento_naoencontrato('erro_documento_naoencontrado.png','ok_efetuado.png')
     click_image('botao_voltar.png')
@@ -501,6 +526,8 @@ for i, linha in enumerate(Planilha_eventos.index):
             click_image('ok_efetuado.png')
         else:
             print("O aviso não está ativo. Prosseguir com outra ação.")
+        if aviso_veiculo:
+            click_image('ok_efetuado.png')
         pyautogui.sleep(2)
         click_image('efetuar.png')
         pyautogui.sleep(2)
