@@ -467,10 +467,11 @@ for i, linha in enumerate(Planilha_eventos.index):
     numero_evento('campo_evento_automatico.png')
     click_info_manifesto('campo_evento.png')
     pyautogui.click(button='right')
-    for i in range(3):
-        keyboard.press("down")
-    pyautogui.sleep(1)
-    keyboard.press("enter")
+    # for i in range(3):
+    #     keyboard.press("down")
+    # pyautogui.sleep(1)
+    # keyboard.press("enter")
+    click_image('botao_copiar.png')
     pyautogui.sleep(0.5)
     try:
         text = pyperclip.paste()
