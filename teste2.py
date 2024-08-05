@@ -13,8 +13,8 @@ import keyboard
 
 caminho = os.getcwd() 
 caminho_do_arquivo = 'EVENTO.xlsx'
-nome_da_aba = 'Plan4'
-coluna_ost = 'K'
+nome_da_aba = 'Planilha1'
+coluna_ost = 'J'
 
 def click_image(image_path, confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
@@ -483,7 +483,7 @@ for i, linha in enumerate(Planilha_eventos.index):
 
     wb = load_workbook(caminho_do_arquivo)
     ws = wb[nome_da_aba]
-    coluna_evento = 'B'  
+    coluna_evento = 'A'  
     if linha > ws.max_row:
         ws[coluna_evento + str(linha_especifica)] = ost
     else:
