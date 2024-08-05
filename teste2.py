@@ -435,9 +435,11 @@ for i, linha in enumerate(Planilha_eventos.index):
     keyboard.write(str(placa))
     click_image('situacao_veiculo.png')
     pyautogui.sleep(0.5)
-    for i in range(2):
-        keyboard.press('down')
-    keyboard.press('enter')
+    # for i in range(2):
+    #     keyboard.press('down')
+    # keyboard.press('enter')
+    click_image('botao_normal.png')
+    pyautogui.sleep(0.5)
     click_image('atualizar.png')
     pyautogui.sleep(2)
     click_image('selecionar.png')
