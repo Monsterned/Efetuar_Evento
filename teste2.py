@@ -526,7 +526,7 @@ for i, linha in enumerate(Planilha_eventos.index):
             pyautogui.sleep(1)
             click_image('ok_efetuado.png')
         else:
-            print("O aviso não está ativo. Prosseguir com outra ação.")
+            print("O aviso não está ativo. Prosseguir com ou    2   213227tra ação.")
         if aviso_veiculo:
             click_image('ok_efetuado.png')
         pyautogui.sleep(2)
