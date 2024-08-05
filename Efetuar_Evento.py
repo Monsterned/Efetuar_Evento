@@ -9,6 +9,7 @@ from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 from datetime import datetime, timedelta
 from unidecode import unidecode
+import keyboard
 
 caminho = os.getcwd() 
 caminho_do_arquivo = 'EVENTO.xlsx'
