@@ -394,7 +394,9 @@ for i, linha in enumerate(Planilha_eventos.index):
     click_info_manifesto('filial.png')
     for i in range(5):
         keyboard.press('backspace')
+    pyautogui.sleep(0.5)
     keyboard.write(str(filial))
+    pyautogui.sleep(0.5)
     keyboard.press('tab')
     click_info_manifesto('data_evento.png')
     for i in range(5):
@@ -503,7 +505,7 @@ for i, linha in enumerate(Planilha_eventos.index):
             pyautogui.sleep(1)
             click_image('ok_efetuado.png')
         else:
-            print("O aviso não está ativo. Prosseguir com ou    2   213227tra ação.")
+            print("O aviso não está ativo. Prosseguir com outra ação.")
         if aviso_veiculo:
             click_image('ok_efetuado.png')
         pyautogui.sleep(2)
