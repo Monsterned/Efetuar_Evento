@@ -13,8 +13,8 @@ import keyboard
 
 caminho = os.getcwd() 
 caminho_do_arquivo = 'EVENTO.xlsx'
-nome_da_aba = 'Plan4'
-coluna_ost = 'K'
+nome_da_aba = 'Planilha1'
+coluna_ost = 'J'
 
 def click_image(image_path, confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
@@ -32,6 +32,64 @@ def click_image(image_path, confidence=0.9):
         except Exception as e:
             print("Imagem não encontrada na tela. Aguardando...")
         pyautogui.sleep(1)
+
+
+def inclusao_documento(image_path, confidence=0.9):
+    current_dir = os.path.dirname(__file__)  # Diretório atual do script
+    caminho_imagem = caminho + r'\IMAGENS'
+    image_path = os.path.join(current_dir, caminho_imagem, image_path) 
+    while True:
+        try:
+            position = pyautogui.locateOnScreen(image_path, confidence=confidence)
+            if position:
+                print("Tela de documento ainda nao fechou, aguarde.")  
+        except Exception as e:
+            print("Tela de documento fechada.")
+            break
+        pyautogui.sleep(1)
+
+def click_aviso_veiculo(image_path,image_path2, confidence=0.9):
+    current_dir = os.path.dirname(__file__)  # Diretório atual do script
+    caminho_imagem = caminho + r'\IMAGENS'
+    image_path = os.path.join(current_dir, caminho_imagem, image_path) 
+    image_path2 = os.path.join(current_dir, caminho_imagem, image_path2) 
+    while True:
+        try:
+            position = pyautogui.locateOnScreen(image_path, confidence=confidence)
+            if position:
+                center_x = position.left + position.width // 2
+                center_y = position.top + position.height // 2
+                pyautogui.click(center_x, center_y)
+                print("Imagem foi encontrada na tela.")
+                break
+        except Exception as e:
+            print("Imagem não encontrada na tela. Aguardando...")
+        try:
+            position2 = pyautogui.locateOnScreen(image_path, confidence=confidence)
+            if position2:
+                center_x = position2.left + position2.width // 2
+                center_y = position2.top + position2.height // 2
+                pyautogui.click(center_x, center_y)
+                print("Imagem foi encontrada na tela.")
+                break
+        except Exception as e:
+            print("Imagem não encontrada na tela. Aguardando...")
+        pyautogui.sleep(1)
+
+def click(image_path, confidence=0.9):
+    current_dir = os.path.dirname(__file__)  # Diretório atual do script
+    caminho_imagem = caminho + r'\IMAGENS'
+    image_path = os.path.join(current_dir, caminho_imagem, image_path) 
+    try:
+        position = pyautogui.locateOnScreen(image_path, confidence=confidence)
+        if position:
+            center_x = position.left + position.width // 2
+            center_y = position.top + position.height // 2
+            pyautogui.click(center_x, center_y)
+            print("Imagem foi encontrada na tela.")
+    except Exception as e:
+        print("Imagem não encontrada na tela. Aguardando...")
+    pyautogui.sleep(1)
 
 def novo_evento(image_path,image_path2, confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
@@ -53,7 +111,8 @@ def novo_evento(image_path,image_path2, confidence=0.9):
                     center_x = position.left + position.width // 2
                     center_y = position.top + position.height // 2
                     pyautogui.click(center_x, center_y)
-                    click_image('incluir.png')
+                    click('ok_efetuado.png')
+                    click('incluir.png')
             except Exception as e:
                 print("OK não encontrada na tela.")
         pyautogui.sleep(1)
@@ -215,7 +274,6 @@ def aviso_atencao(image_path, image_path2, image_path3, image_path4, confidence=
     image_path2 = os.path.join(current_dir, caminho_imagem, image_path2)
     image_path3 = os.path.join(current_dir, caminho_imagem, image_path3)
     image_path4 = os.path.join(current_dir, caminho_imagem, image_path4)
-    
     attempts = 3
     aviso_ativo = False  # Variável para indicar se o aviso está ativo
     aviso_veiculo = False  # Variável para indicar se o aviso do veículo está ativo
@@ -240,7 +298,7 @@ def aviso_atencao(image_path, image_path2, image_path3, image_path4, confidence=
                 break
         except Exception as e:
             print(f"Erro ao tentar encontrar a imagem 4 na tentativa {attempt + 1}: {e}")
-        
+              
         pyautogui.sleep(1)
         
     if not aviso_ativo:
@@ -255,22 +313,10 @@ def aviso_atencao(image_path, image_path2, image_path3, image_path4, confidence=
         pyautogui.sleep(0.5)
         click_image('ok_efetuado.png')
         pyautogui.sleep(0.5)
-        click_image('ok_efetuado.png')
+        pyautogui.press('enter')
+        # click_image('ok_efetuado.png')
         pyautogui.sleep(0.5)
-        # # Verificação das imagens 2 e 3
-        # for image, description in [(image_path2, "Imagem 2"), (image_path3, "Imagem 3")]:
-        #     while True:
-        #         try:
-        #             position = pyautogui.locateOnScreen(image, confidence=confidence)
-        #             if position:
-        #                 pyautogui.click(position)
-        #                 print(f"{description} foi encontrada na tela.")
-        #                 break
-        #             else:
-        #                 print(f"{description} não encontrada na tela. Aguardando...")
-        #         except Exception as e:
-        #             print(f"Erro ao tentar encontrar {description}: {e}")
-        #         pyautogui.sleep(1)
+
     
     return aviso_ativo, aviso_veiculo  # Retorna o estado do aviso
 
@@ -415,9 +461,9 @@ for i, linha in enumerate(Planilha_eventos.index):
     pyautogui.write(str(filial))
     pyautogui.press('tab')
     click_info_manifesto('data_evento.png')
-    for i in range(5):
+    for i in range(10):
         pyautogui.press('backspace')
-    for i in range(15):
+    for i in range(25):
         pyautogui.press('del')
     pyautogui.write(str(data))
     pyautogui.write(str(um_minuto_atras_formatado))
@@ -431,20 +477,23 @@ for i, linha in enumerate(Planilha_eventos.index):
     pyautogui.sleep(0.5)  
     pyautogui.press('F2')
     click_info_manifesto('campo_placa.png')
-    pyautogui.write(str(placa))
+    pyautogui.sleep(0.5) 
+    pyautogui.write(str(placa))     
     click_image('situacao_veiculo.png')
     pyautogui.sleep(0.5)
-    for i in range(2):
-        pyautogui.press('down')
-    pyautogui.press('enter')
+    # for i in range(2):
+    #     pyautogui.press('down')
+    # pyautogui.press('enter')
+    click_image('tipo_veiculo_normal.png')
     click_image('atualizar.png')
     pyautogui.sleep(2)
     click_image('selecionar.png')
     pyautogui.sleep(2)
     if veiculo_nao_localizado('campo_veiculo_vazio.png'):
         continue  
-    for i in range(2):
+    for i in range(3):
         pyautogui.press('tab')
+    pyautogui.press('enter')
     pyautogui.sleep(1)
     #se placa ou motorista der aviso colocar um ok 
     aviso_ativo, aviso_veiculo = aviso_atencao('aviso_cnh_vencida.png', 'ok_marcado.png', 'ok_efetuado.png', 'curso_vencido.png')
@@ -452,7 +501,9 @@ for i, linha in enumerate(Planilha_eventos.index):
     antt_vencida = aviso_antt('erro_antt.png')
     pyautogui.sleep(1)
     if motorista_nao_localizado('campo_motorista_vazio.png'):
-        continue  
+        continue
+    pyautogui.press('enter')  
+    print('antes da quantidade')
     click_info_manifesto('campo_quantidade.png')
     pyautogui.write('1')
     pyautogui.press('tab')
@@ -483,7 +534,7 @@ for i, linha in enumerate(Planilha_eventos.index):
 
     wb = load_workbook(caminho_do_arquivo)
     ws = wb[nome_da_aba]
-    coluna_evento = 'B'  
+    coluna_evento = 'A'  
     if linha > ws.max_row:
         ws[coluna_evento + str(linha_especifica)] = ost
     else:
@@ -511,6 +562,7 @@ for i, linha in enumerate(Planilha_eventos.index):
     confirmacao_documento_incluido('confirmacao_de_documento_incluido.png')
     #Verificar se o documento foi encontrado
     documento_nao_localizado = erro_documento_naoencontrato('erro_documento_naoencontrado.png','ok_efetuado.png')
+    pyautogui.press('enter')
     click_image('botao_voltar.png')
     if documento_nao_localizado:
         print("Documento nao encontrado, ir para o proximo evento.")
@@ -521,18 +573,26 @@ for i, linha in enumerate(Planilha_eventos.index):
         if alerta_revisonal:
             click_image('ok_efetuado.png')
         if aviso_ativo:
-            print("O aviso está ativo. Tome uma ação específica.")
+            print("O aviso está ativo. Tome uma ação específica.")      
+
             click_image('ok_efetuado.png')
             pyautogui.sleep(1)
             click_image('ok_efetuado.png')
         else:
             print("O aviso não está ativo. Prosseguir com outra ação.")
         if aviso_veiculo:
-            click_image('ok_efetuado.png')
+            click_aviso_veiculo('ok_efetuado.png','yes_marcado.png')
+        pyautogui.sleep(1)
+        pyautogui.press('tab')
+        pyautogui.press('enter')
+        inclusao_documento('tela_documento.png')        
+        for i in range(2):
+            pyautogui.press("tab")    
+        pyautogui.press('enter')
         pyautogui.sleep(2)
         click_image('efetuar.png')
         pyautogui.sleep(2)
-        if erro_rateio('erro_rateio.png'):
+        if erro_rateio('erro_rateio.png'):      
             continue  
         click_image('yes_efetuar.png')
         pyautogui.sleep(1)
