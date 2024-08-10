@@ -431,6 +431,10 @@ Planilha_eventos['DATA'] = Planilha_eventos['DATA'].dt.strftime('%d/%m/%Y')
 linha_especifica = 1
 pyautogui.sleep(2)
 
+click_image('botao_frota.png')
+click_image('frota_movimentacao.png')
+click_image('frota_movimentacao_eventos.png')
+
 for i, linha in enumerate(Planilha_eventos.index):
     data = Planilha_eventos.loc[linha, "DATA"]
     filial = Planilha_eventos.loc[linha, "FILIAL"]
@@ -590,13 +594,13 @@ for i, linha in enumerate(Planilha_eventos.index):
             pyautogui.press("tab")    
         pyautogui.press('enter')
         pyautogui.sleep(2)
-        click_image('efetuar.png')
-        pyautogui.sleep(2)
-        if erro_rateio('erro_rateio.png'):      
-            continue  
-        click_image('yes_efetuar.png')
-        pyautogui.sleep(1)
-        click_image('ok_efetuado.png')
-        pyautogui.sleep(1)
+        # click_image('efetuar.png')
+        # pyautogui.sleep(2)
+        # if erro_rateio('erro_rateio.png'):      
+        #     continue  
+        # click_image('yes_efetuar.png')
+        # pyautogui.sleep(1)
+        # click_image('ok_efetuado.png')
+        # pyautogui.sleep(1)
 
         
