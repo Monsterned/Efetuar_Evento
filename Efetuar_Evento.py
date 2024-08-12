@@ -16,10 +16,12 @@ caminho_do_arquivo = 'EVENTO.xlsx'
 nome_da_aba = 'Planilha1'
 coluna_ost = 'J'
 
+
 def click_image(image_path, confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
     caminho_imagem = caminho + r'\IMAGENS'
-    image_path = os.path.join(current_dir, caminho_imagem, image_path) 
+    image_path = os.path.join(current_dir, caminho_imagem, image_path)
+    image_path2 = os.path.join(current_dir, caminho_imagem, "query_timeout_expered.png") 
     while True:
         try:
             position = pyautogui.locateOnScreen(image_path, confidence=confidence)
@@ -31,8 +33,29 @@ def click_image(image_path, confidence=0.9):
                 break
         except Exception as e:
             print("Imagem não encontrada na tela. Aguardando...")
+        try:
+            position2 = pyautogui.locateOnScreen(image_path2, confidence=confidence)
+            if position2:
+                print("Imagem de query_timeout_expered foi encontrada na tela.")
+                click_image('ok.png')
+                break
+        except Exception as e:
+            print("Aguardando...")
         pyautogui.sleep(1)
 
+def liberado_efetuar(image_path, confidence=0.9):
+    current_dir = os.path.dirname(__file__)  # Diretório atual do script
+    caminho_imagem = caminho + r'\IMAGENS'
+    image_path = os.path.join(current_dir, caminho_imagem, image_path)
+    while True:
+        try:
+            position = pyautogui.locateOnScreen(image_path, confidence=confidence)
+            if position:
+                print("Liberado para efetuar.")
+                break
+        except Exception as e:
+            print("Não liberado para efetuar. Aguardando...")
+        pyautogui.sleep(1)
 
 def inclusao_documento(image_path, confidence=0.9):
     current_dir = os.path.dirname(__file__)  # Diretório atual do script
@@ -441,7 +464,8 @@ for i, linha in enumerate(Planilha_eventos.index):
     serie = Planilha_eventos.loc[linha, "SERIE"]
     manifesto = Planilha_eventos.loc[linha, "MANIFESTO"]
     codigo_evento = Planilha_eventos.loc[linha, "COD"]
-    valor = Planilha_eventos.loc[linha, "VALOR"]
+    valor = Planilha_eventos.loc[linha, "VALOR"]        
+
     valor = str(valor)
     valor = valor.replace('.', ',')
     descricao = Planilha_eventos.loc[linha, "OBSERVAÇÃO"]
@@ -455,6 +479,8 @@ for i, linha in enumerate(Planilha_eventos.index):
     placa = Planilha_eventos.loc[linha, "PLACA"]
     placa = str(placa)
     placa = placa.replace('*', '')
+    placa = placa.replace('-', '')
+    placa = placa.replace('_', '')
     linha_especifica += 1
     click_image('incluir.png')
     pyautogui.sleep(2)
@@ -507,7 +533,6 @@ for i, linha in enumerate(Planilha_eventos.index):
     if motorista_nao_localizado('campo_motorista_vazio.png'):
         continue
     pyautogui.press('enter')  
-    print('antes da quantidade')
     click_info_manifesto('campo_quantidade.png')
     pyautogui.write('1')
     pyautogui.press('tab')
@@ -594,13 +619,14 @@ for i, linha in enumerate(Planilha_eventos.index):
             pyautogui.press("tab")    
         pyautogui.press('enter')
         pyautogui.sleep(2)
-        # click_image('efetuar.png')
-        # pyautogui.sleep(2)
-        # if erro_rateio('erro_rateio.png'):      
-        #     continue  
-        # click_image('yes_efetuar.png')
-        # pyautogui.sleep(1)
-        # click_image('ok_efetuado.png')
-        # pyautogui.sleep(1)
+        liberado_efetuar('botao_replicar_veiculo.png')
+        click_image('efetuar.png')
+        pyautogui.sleep(2)
+        if erro_rateio('erro_rateio.png'):      
+            continue  
+        click_image('yes_efetuar.png')
+        pyautogui.sleep(1)
+        click_image('ok_efetuado.png')
+        pyautogui.sleep(1)
 
         
