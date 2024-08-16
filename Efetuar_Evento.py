@@ -136,8 +136,12 @@ def novo_evento(image_path,image_path2, confidence=0.9):
                     pyautogui.click(center_x, center_y)
                     click('ok_efetuado.png')
                     click('incluir.png')
+                else:       
+                    pyautogui.press('enter')
+                    click('incluir.png')
             except Exception as e:
                 print("OK não encontrada na tela.")
+
         pyautogui.sleep(1)
 
 def confirmacao_documento_incluido(image_path, confidence=0.9):
@@ -481,6 +485,7 @@ for i, linha in enumerate(Planilha_eventos.index):
     placa = placa.replace('*', '')
     placa = placa.replace('-', '')
     placa = placa.replace('_', '')
+    placa = placa.replace('&', '')
     linha_especifica += 1
     click_image('incluir.png')
     pyautogui.sleep(2)
@@ -628,5 +633,9 @@ for i, linha in enumerate(Planilha_eventos.index):
         pyautogui.sleep(1)
         click_image('ok_efetuado.png')
         pyautogui.sleep(1)
+
+pyautogui.sleep(2)
+click_image('voltar.png')
+
 
         
