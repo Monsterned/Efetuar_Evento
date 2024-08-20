@@ -600,6 +600,17 @@ for i, linha in enumerate(Planilha_eventos.index):
     click_image('botao_voltar.png')
     if documento_nao_localizado:
         print("Documento nao encontrado, ir para o proximo evento.")
+        click_image('ok_efetuado.png')
+        click_image('botao_voltar.png')
+        pyautogui.sleep(1)
+        pyautogui.press('tab')
+        pyautogui.press('enter')
+        inclusao_documento('tela_documento.png')        
+        for i in range(2):
+            pyautogui.press("tab")    
+        pyautogui.press('enter')
+        pyautogui.sleep(2)
+        liberado_efetuar('botao_replicar_veiculo.png')
     else:
         print("Documento encontrado. Prosseguir com outra ação.")
         if antt_vencida:
