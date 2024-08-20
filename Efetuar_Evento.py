@@ -516,9 +516,6 @@ for i, linha in enumerate(Planilha_eventos.index):
     pyautogui.write(str(placa))     
     click_image('situacao_veiculo.png')
     pyautogui.sleep(0.5)
-    # for i in range(2):
-    #     pyautogui.press('down')
-    # pyautogui.press('enter')
     click_image('tipo_veiculo_normal.png')
     click_image('atualizar.png')
     pyautogui.sleep(2)
@@ -552,10 +549,8 @@ for i, linha in enumerate(Planilha_eventos.index):
     numero_evento('campo_evento_automatico.png')
     click_info_manifesto('campo_evento.png')
     pyautogui.click(button='right')
-    for i in range(3):
-        pyautogui.press("down")
     pyautogui.sleep(1)
-    pyautogui.press("enter")
+    click_image('copy.png')
     pyautogui.sleep(0.5)
     try:
         text = pyperclip.paste()
@@ -596,11 +591,9 @@ for i, linha in enumerate(Planilha_eventos.index):
     confirmacao_documento_incluido('confirmacao_de_documento_incluido.png')
     #Verificar se o documento foi encontrado
     documento_nao_localizado = erro_documento_naoencontrato('erro_documento_naoencontrado.png','ok_efetuado.png')
-    pyautogui.press('enter')
-    click_image('botao_voltar.png')
+    
     if documento_nao_localizado:
         print("Documento nao encontrado, ir para o proximo evento.")
-        click_image('ok_efetuado.png')
         click_image('botao_voltar.png')
         pyautogui.sleep(1)
         pyautogui.press('tab')
@@ -611,7 +604,10 @@ for i, linha in enumerate(Planilha_eventos.index):
         pyautogui.press('enter')
         pyautogui.sleep(2)
         liberado_efetuar('botao_replicar_veiculo.png')
+        print('Indo para o proximo evento')
     else:
+        pyautogui.press('enter')
+        click_image('botao_voltar.png')
         print("Documento encontrado. Prosseguir com outra ação.")
         if antt_vencida:
             click_image('ok_efetuado.png')
@@ -631,8 +627,7 @@ for i, linha in enumerate(Planilha_eventos.index):
         pyautogui.press('tab')
         pyautogui.press('enter')
         inclusao_documento('tela_documento.png')        
-        for i in range(2):
-            pyautogui.press("tab")    
+        for i in range(2):            pyautogui.press("tab")    
         pyautogui.press('enter')
         pyautogui.sleep(2)
         liberado_efetuar('botao_replicar_veiculo.png')
